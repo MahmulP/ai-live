@@ -1,0 +1,32 @@
+# 24-hour TikTok LIVE on a Linux server:
+#   backend  - Ucok server (chat, AI, TTS) and the avatar page
+#   streamer - Chromium + PulseAudio + ffmpeg, streaming the page to TikTok over RTMP
+# Not named "app": .app is an HSTS-preloaded TLD, so Chromium forces https://app and the page fails.
+# Start with `docker compose up -d --build`; both restart on crash and on reboot.
+services:
+  backend:
+    build: .
+    env_file: .env
+    environment:
+      SERVER_HOST: 0.0.0.0
+    volumes:
+      # Today's AI spend survives restarts.
+      - logs:/app/logs
+      # Edit the persona without rebuilding; `docker compose restart backend` applies it.
+      - ./persona.md:/app/persona.md:ro
+    ports:
+      # Only reachable from the server itself. Open the ?debug panel through an SSH tunnel.
+      - "127.0.0.1:${SERVER_PORT:-8787}:${SERVER_PORT:-8787}"
+    restart: unless-stopped
+
+  streamer:
+    build: docker/streamer
+    env_file: .env
+    depends_on:
+      backend:
+        condition: service_healthy
+    shm_size: 1gb
+    restart: unless-stopped
+
+volumes:
+  logs:

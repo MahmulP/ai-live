@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Live Avatar</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main id="stage" aria-label="Avatar AI live">
+      <!-- Two layers: the blurred bokeh is painted once; only the sparkles animate. -->
+      <svg class="decor" viewBox="0 0 1080 1920" aria-hidden="true">
+        <defs>
+          <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="28" />
+          </filter>
+        </defs>
+        <g filter="url(#soft)" class="bokeh">
+          <circle cx="170" cy="420" r="90" fill="#ff7aa8" />
+          <circle cx="930" cy="340" r="110" fill="#ffb38a" />
+          <circle cx="880" cy="900" r="80" fill="#c7b4f5" />
+          <circle cx="140" cy="1000" r="100" fill="#7fd6cf" />
+          <circle cx="540" cy="1750" r="160" fill="#ff7aa8" />
+        </g>
+      </svg>
+      <svg class="decor" viewBox="0 0 1080 1920" aria-hidden="true">
+        <defs>
+          <path id="star" d="M0 -22 C3 -6 6 -3 22 0 C6 3 3 6 0 22 C-3 6 -6 3 -22 0 C-6 -3 -3 -6 0 -22Z" />
+        </defs>
+        <g class="sparkles" fill="#fff4d6">
+          <use href="#star" class="sparkle" transform="translate(210 300) scale(0.9)" />
+          <use href="#star" class="sparkle" transform="translate(880 520) scale(0.6)" />
+          <use href="#star" class="sparkle" transform="translate(150 760) scale(0.5)" />
+          <use href="#star" class="sparkle" transform="translate(950 790) scale(0.8)" />
+          <use href="#star" class="sparkle" transform="translate(780 220) scale(0.45)" />
+          <use href="#star" class="sparkle" transform="translate(300 900) scale(0.4)" />
+        </g>
+      </svg>
+      <canvas id="avatar" width="1080" height="1920"></canvas>
+      <div class="spam">SPAM BLOCK <b id="spam-count">0</b></div>
+      <div class="voice">
+        <div class="voice-label"><span class="dot"></span><span id="voice-label">LISTENING</span></div>
+        <canvas id="wave" width="640" height="80"></canvas>
+      </div>
+      <div id="caption" class="caption" hidden>
+        <div id="caption-prompt" class="caption-prompt"></div>
+        <div class="bubble"><div id="caption-reply" class="caption-reply"></div></div>
+      </div>
+    </main>
+
+    <div id="audio-gate" class="audio-gate" hidden>
+      <button type="button">Klik untuk mengaktifkan suara</button>
+    </div>
+
+    <aside id="debug" class="debug" hidden>
+      <h2>Panel tes</h2>
+      <dl id="debug-status"></dl>
+      <form id="debug-form">
+        <label>Nama <input id="dbg-name" value="penonton" autocomplete="off" /></label>
+        <label class="check"><input id="dbg-random" type="checkbox" checked /> nama acak tiap kirim</label>
+        <label>Komentar <input id="dbg-text" placeholder="Horas! Kau dari mana?" autocomplete="off" /></label>
+        <div class="row">
+          <button type="submit">Kirim chat</button>
+          <button type="button" id="dbg-gift">Gift Rose x5</button>
+          <button type="button" id="dbg-follow">Follow</button>
+          <button type="button" id="dbg-join">Penonton masuk</button>
+        </div>
+      </form>
+      <h3>Chat masuk</h3>
+      <ol id="dbg-log"></ol>
+    </aside>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

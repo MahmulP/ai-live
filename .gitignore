@@ -1,0 +1,14 @@
+node_modules/
+dist/
+logs/
+
+# Secrets: API keys and the TikTok stream key live here. Only the template is committed.
+.env
+.env.*
+!.env.example
+
+# Local tooling
+.claude/
+.impeccable/
+.DS_Store
+npm-debug.log*

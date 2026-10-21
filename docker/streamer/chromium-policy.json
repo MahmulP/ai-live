@@ -1,0 +1,6 @@
+{
+  "HttpsUpgradesEnabled": false,
+  "HttpsOnlyMode": "disallowed",
+  "AutoplayAllowed": true,
+  "TranslateEnabled": false
+}
